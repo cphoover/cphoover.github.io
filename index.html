@@ -1,557 +1,441 @@
 <!DOCTYPE html>
-<!-- saved from url=(0027)https://cphoover.github.io/ -->
 <html lang="en">
-  <web-stickies-container
-    ><template shadowrootmode="open"
-      ><link
-        rel="stylesheet"
-        href="chrome-extension://bieffgacahgffgjoehgamaomcpcelmfb/contentScript/main.css"
-      />
-      <div
-        id="WebStickies_container"
-        hidden=""
-        default_note_color=""
-        enable_scroll_indicators=""
-      >
-        <div id="WebStickies_context_menu" class="WebStickies_hidden">
-          <div id="edit-sticky-option">Edit</div>
-          <div id="WebStickies_context_menu_pin">Pin</div>
-          <div id="lock-sticky-option">Lock</div>
-          <div class="WebStickies_horizontal_line"></div>
-          <div id="WebStickies_context_menu_new">New</div>
-          <div id="duplicate-sticky-option">Duplicate</div>
-          <div class="WebStickies_horizontal_line"></div>
-          <div id="WebStickies_context_menu_hide">Hide</div>
-          <div id="WebStickies_context_menu_close">Delete</div>
-        </div>
-      </div></template
-    ></web-stickies-container
-  ><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+  <head>
+    <meta charset="utf-8">
     <title>Charlie Hoover</title>
-    <meta
-      name="description"
-      content="JavaScript nerd and hacker. In years past, I have helped organize open source tech events. I have given speeches and lectures on various open source and JavaScript-centered topics.
-A Maryland boy born and raised, when I&#39;m not coding I enjoy canoe camping along the Potomac river. I love getting out in nature, cooking, and trying delicious new foods!"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./Charlie_Hoover_resume_June27_files/css" />
-    <style>
-      :root {
-        /* Colors */
-        --primaryColor: #000;
-        --secondaryColor: #515154;
-        --accentColor: #000;
-        --linkColor: #06c;
-        --mutedColor: #f4f6f6;
+    <meta name="description" content="JavaScript nerd and hacker. In years past, I have helped organize open source tech events. I have given speeches and lectures on various open source and JavaScript-centered topics.
+A Maryland boy born and raised, when I&#x27;m not coding I enjoy canoe camping along the Potomac river. I love getting out in nature, cooking, and trying delicious new foods!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
+    <style>:root {
+  /* Colors */
+  --primaryColor: #000;
+  --secondaryColor: #515154;
+  --accentColor: #000;
+  --linkColor: #06c;
+  --mutedColor: #f4f6f6;
 
-        /* Typography */
-        --ratio: 1.25;
-        --scale0: 1rem;
-        --scale1: calc(var(--scale0) * var(--ratio));
-        --scale2: calc(var(--scale1) * var(--ratio));
-        --scale3: calc(var(--scale2) * var(--ratio));
-        --scale4: calc(var(--scale3) * var(--ratio));
-        --scale5: calc(var(--scale4) * var(--ratio));
-      }
+  /* Typography */
+  --ratio: 1.25;
+  --scale0: 1rem;
+  --scale1: calc(var(--scale0) * var(--ratio));
+  --scale2: calc(var(--scale1) * var(--ratio));
+  --scale3: calc(var(--scale2) * var(--ratio));
+  --scale4: calc(var(--scale3) * var(--ratio));
+  --scale5: calc(var(--scale4) * var(--ratio));
+}
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-      html {
-        font-size: 14px;
-      }
+html {
+  font-size: 14px;
+}
 
-      body {
-        color: var(--primaryColor);
-        display: grid;
-        font: 1em/1.5 Lato, sans-serif;
-        gap: 2em;
-        grid-template-columns:
-          [full-start]
-          1fr
-          [main-start side-start]
-          minmax(min-content, 12em)
-          [side-end content-start]
-          minmax(min-content, 36em)
-          [main-end content-end]
-          1fr
-          [full-end];
-        grid-template-rows: auto [content] 0;
-        margin-bottom: 4em;
-      }
+body {
+  color: var(--primaryColor);
+  display: grid;
+  font: 1em/1.5 Lato, sans-serif;
+  gap: 2em;
+  grid-template-columns:
+    [full-start]
+    1fr
+    [main-start side-start]
+    minmax(min-content, 12em)
+    [side-end content-start]
+    minmax(min-content, 36em)
+    [main-end content-end]
+    1fr
+    [full-end];
+  grid-template-rows: auto [content] 0;
+  margin-bottom: 4em;
+}
 
-      body::before {
-        content: "";
-        grid-column: full;
-        grid-row: content;
-      }
+body::before {
+  content: '';
+  grid-column: full;
+  grid-row: content;
+}
 
-      ol,
-      ul {
-        padding-left: 1em;
-      }
+ol,
+ul {
+  padding-left: 1em;
+}
 
-      li + li {
-        margin-top: 0.2em;
-      }
+li + li {
+  margin-top: 0.2em;
+}
 
-      li::marker {
-        color: var(--mutedColor);
-      }
+li::marker {
+  color: var(--mutedColor);
+}
 
-      a {
-        color: var(--linkColor);
-        text-decoration: none;
-        transition: color 0.2s;
-      }
+a {
+  color: var(--linkColor);
+  text-decoration: none;
+  transition: color 0.2s;
+}
 
-      a:focus,
-      a:hover {
-        color: var(--accentColor);
-      }
+a:focus,
+a:hover {
+  color: var(--accentColor);
+}
 
-      h1,
-      h2,
-      h5 {
-        font-weight: normal;
-      }
+h1,
+h2,
+h5 {
+  font-weight: normal;
+}
 
-      h3 {
-        font-weight: bold;
-      }
+h3{
+  font-weight: bold;
+}
 
-      h1,
-      h2,
-      h3 {
-        line-height: 1.2;
-      }
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
 
-      h1 {
-        font-size: var(--scale5);
-      }
+h1 {
+  font-size: var(--scale5);
+}
 
-      h2 {
-        color: var(--secondaryColor);
-        font-size: var(--scale2);
-      }
+h2 {
+  color: var(--secondaryColor);
+  font-size: var(--scale2);
+}
 
-      h3 {
-        color: var(--accentColor);
-        font-size: var(--scale3);
-        grid-column: side;
-        margin-bottom: 1rem;
-      }
+h3 {
+  color: var(--accentColor);
+  font-size: var(--scale3);
+  grid-column: side;
+  margin-bottom: 1rem;
+}
 
-      h4 {
-        font-size: var(--scale2);
-      }
+h4 {
+  font-size: var(--scale2);
+}
 
-      h5 {
-        font-size: var(--scale1);
-      }
+h5 {
+  font-size: var(--scale1);
+}
 
-      h6 {
-        font-size: var(--scale0);
-      }
+h6 {
+  font-size: var(--scale0);
+}
 
-      blockquote {
-        border-left: 0.2em solid var(--mutedColor);
-        padding-left: 1em;
-        font-style: italic;
-      }
+blockquote {
+  border-left: 0.2em solid var(--mutedColor);
+  padding-left: 1em;
+  font-style: italic;
+}
 
-      cite {
-        color: var(--secondaryColor);
-        font-style: inherit;
-      }
+cite {
+  color: var(--secondaryColor);
+  font-style: inherit;
+}
 
-      cite::before {
-        content: "— ";
-      }
+cite::before {
+  content: '— ';
+}
 
-      .masthead {
-        background: var(--mutedColor);
-        display: inherit;
-        gap: inherit;
-        grid-column: full;
-        grid-template-columns: inherit;
-        padding: 4em 0;
-        row-gap: 0;
-      }
+.masthead {
+  background: var(--mutedColor);
+  display: inherit;
+  gap: inherit;
+  grid-column: full;
+  grid-template-columns: inherit;
+  padding: 4em 0;
+  row-gap: 0;
+}
 
-      @media print {
-        .masthead {
-          padding: 2em 0;
-        }
-      }
+@media print {
+ .masthead {
+   padding: 2em 0;
+ }
+}
 
-      .masthead > *,
-      section {
-        grid-column: main;
-      }
+.masthead > *,
+section {
+  grid-column: main;
+}
 
-      article > * + *,
-      blockquote > * + * {
-        margin-top: 0.6em;
-      }
+article > * + *,
+blockquote > * + * {
+  margin-top: 0.6em;
+}
 
-      .stack {
-        display: grid;
-        gap: 1.5em;
-      }
+.stack {
+  display: grid;
+  gap: 1.5em;
+}
 
-      .grid-list {
-        display: grid;
-        gap: 1em;
-      }
+.grid-list {
+  display: grid;
+  gap: 1em;
+}
 
-      .spaced-list {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+.spaced-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-      .spaced-list:first-child::before {
-        border-bottom: 1px solid var(--mutedColor);
-        content: "";
-        flex-grow: 1;
-        margin: 0 1em;
-        order: 1;
-      }
+.spaced-list:first-child::before {
+  border-bottom: 1px solid var(--mutedColor);
+  content: '';
+  flex-grow: 1;
+  margin: 0 1em;
+  order: 1;
+}
 
-      .spaced-list > :nth-child(2) {
-        order: 2;
-      }
+.spaced-list > :nth-child(2) {
+  order: 2;
+}
 
-      .tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-      }
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
 
-      .tag-list > li {
-        background: var(--mutedColor);
-        margin: 0 0.2em 0.2em 0;
-        padding: 0.2em 0.6em;
-      }
+.tag-list > li {
+  background: var(--mutedColor);
+  margin: 0 0.2em 0.2em 0;
+  padding: 0.2em 0.6em;
+}
 
-      @media print, (min-width: 48em) {
-        h3 {
-          text-align: right;
-          margin-bottom: inherit;
-        }
+@media print, (min-width: 48em) {
+  h3 {
+    text-align: right;
+    margin-bottom: inherit;
+  }
 
-        .masthead > *,
-        section {
-          grid-column: content;
-        }
+  .masthead > *,
+  section {
+    grid-column: content;
+  }
 
-        section {
-          display: contents;
-        }
+  section {
+    display: contents;
+  }
 
-        .grid-list {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-    </style>
+  .grid-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
   </head>
   <body>
-    <header class="masthead">
-      <h1>Charlie Hoover</h1>
-      <h2>
-        Full Stack Programmer preaching clean and intuitive user interface
-        design.
-      </h2>
-    </header>
-    <section id="contact">
-      <h3>Contact</h3>
-      <div class="grid-list">
-        <div>
-          <h4>Email</h4>
-          <a href="mailto:cphoover+jobs@gmail.com">cphoover+jobs@gmail.com</a>
+      <header class="masthead">
+          <h1>Charlie Hoover</h1>
+          <h2>Full Stack Programmer preaching clean and intuitive user interface design.</h2>
+      </header>
+      <section id="contact">
+        <h3>Contact</h3>
+        <div class="grid-list">
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:cphoover+jobs@gmail.com">cphoover+jobs@gmail.com</a>
+            </div>
+            <div>
+              <h4>Phone</h4>
+              (301) 922-6059
+            </div>
         </div>
-        <div>
-          <h4>Phone</h4>
-          (301) 922-6059
-        </div>
-      </div>
-    </section>
-    <section id="about">
-      <h3>About</h3>
-      <article>
-        <p>
-          JavaScript nerd and hacker. In years past, I have helped organize open
-          source tech events. I have given speeches and lectures on various open
-          source and JavaScript-centered topics.
-        </p>
-        <p>
-          A Maryland boy born and raised, when I'm not coding I enjoy canoe
-          camping along the Potomac river. I love getting out in nature,
-          cooking, and trying delicious new foods!
-        </p>
-      </article>
-    </section>
+      </section>
+        <section id="about">
+          <h3>About</h3>
+          <article>
+            <p>JavaScript nerd and hacker. In years past, I have helped organize open source tech events. I have given speeches and lectures on various open source and JavaScript-centered topics.</p>
+      <p>A Maryland boy born and raised, when I'm not coding I enjoy canoe camping along the Potomac river. I love getting out in nature, cooking, and trying delicious new foods!</p>
+          </article>
+        </section>
 
-    <section id="work">
-      <h3>Work</h3>
-      <div class="stack">
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>Inbox.AI</h4>
-              <span>
-                <time datetime="2018-05-01">Nov 2022 </time> – Present
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong>President & Founder</strong>
-            </div>
-          </header>
-        </article>
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>T. Rowe Price</h4>
-              <span>
-                <time datetime="2018-05-01">Apr 2018</time> –
-                <time datetime="2018">Nov 2022</time>
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong
-                >Associate Vice President, Senior Software Engineer</strong
-              >
-              <a href="https://troweprice.com/">troweprice.com</a>
-            </div>
-          </header>
-          <p>Investment Management/Financial Services</p>
-          <h5>Highlights</h5>
-          <ul>
-            <li>
-              Initial Committer First Enterprise-wide UI component library
-              (React-based)
-            </li>
-            <li>
-              Introduced Peer-review standard as part of SDLC for league of
-              scrum teams.
-            </li>
-            <li>
-              Added Investment Account Funding from external accounts via Plaid
-              3P Integration
-            </li>
-            <li>Principal Architect of V2 Retail Buying Experience</li>
-            <li>Principal Architect of V2 Retail Shopping Experience</li>
-          </ul>
-        </article>
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>Upside Travel</h4>
-              <span>
-                <time datetime="2017">Dec 2016</time> –
-                <time datetime="2018">Dec 2017</time>
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong>Software Engineer</strong>
-              <a href="https://upside.com/">upside.com</a>
-            </div>
-          </header>
-          <p>
-            At Upside, I successfully designed and built out our omni-channel
-            communication strategy. This included architecting and building
-            in-app messaging, email, and phone communication channels. I built
-            and optimized our communication and task routing algorithm, so our
-            24/7 concierge team could be assigned new cases under high-load in
-            real-time. In collaboration with a couple of other engineers, I won
-            the Upside.com hackathon with an Amazon Alexa app connected to
-            internal services, including flight status (e.g. "Alexa is my flight
-            on time?").
-          </p>
-          <h5>Highlights</h5>
-          <ul>
-            <li>Won annual Upside hackathon</li>
-            <li>
-              Successfully designed, built, and launched omni-channel
-              communication platform for navigators.
-            </li>
-          </ul>
-        </article>
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>Under Armour</h4>
-              <span>
-                <time datetime="2014">Dec 2013</time> –
-                <time datetime="2017">Dec 2016</time>
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong>Software Engineer</strong>
-              <a href="https://ua.com/">ua.com</a>
-            </div>
-          </header>
-          <p>
-            In my role as a full-stack developer, I worked on a large-scale,
-            highly available e-commerce platform. I led a team at Under Armour
-            on Application Performance Management (APM), setting up a
-            custom-built system for real-time monitoring and alerts on key
-            metrics of system performance across the cluster. This system was
-            used during peak retail season when huge variance from our normal
-            traffic pattern occurred. I also worked on various initiatives and
-            systems, including the first responsive redesign and rebuild of the
-            ecommerce website, search and checkout subsystems and many others.
-          </p>
-          <h5>Highlights</h5>
-          <ul>
-            <li>Cloud Orchestration</li>
-            <li>Deployments</li>
-            <li>Automation</li>
-            <li>Production/On-Call Support</li>
-            <li>Microservice Design/Implementation</li>
-            <li>Node.js and Scala Architecture &amp; Development</li>
-          </ul>
-        </article>
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>ADG Creative</h4>
-              <span>
-                <time datetime="2012">Dec 2011</time> –
-                <time datetime="2014">Dec 2013</time>
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong>Senior UI Engineer</strong>
-              <a href="https://adgcreative.net/">adgcreative.net</a>
-            </div>
-          </header>
-          <p>
-            At ADG, my projects included work in the commercial, federal, and
-            not-for-profit sectors. I worked extensively with defense clients
-            and governmental agencies. Portfolio available upon request.
-          </p>
-          <h5>Highlights</h5>
-          <ul>
-            <li>Led front-end development strategy at ADG.</li>
-            <li>Helped architect core front-end libraries and frameworks.</li>
-          </ul>
-        </article>
-        <article>
-          <header>
-            <div class="spaced-list">
-              <h4>Fathom Creative</h4>
-              <span>
-                <time datetime="2010">Dec 2009</time> –
-                <time datetime="2012">Dec 2011</time>
-              </span>
-            </div>
-            <div class="spaced-list">
-              <strong>Senior UI Engineer</strong>
-              <a href="https://fathomcreative.com/">fathomcreative.com</a>
-            </div>
-          </header>
-          <p>
-            At Fathom Creative, I developed, executed, and completed multiple
-            commercial, federal and non-profit websites, mobile applications and
-            other interactive applications for local, regional and national
-            entities including Carfax, GPO, GSA, Paxton Vanlines, American
-            Chemical Society and the American Chemical Council.
-          </p>
-        </article>
-      </div>
-    </section>
-    <section id="skills">
-      <h3>Skills</h3>
-      <div class="grid-list">
-        <div>
-          <h4>Frontend</h4>
-          <ul class="tag-list">
-            <li>User Interface Design</li>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>Responsive/Adaptive/Mobile-First</li>
-            <li>Javascript</li>
-            <li>React</li>
-            <li>Storybook</li>
-            <li>Pattern Library</li>
-          </ul>
+      <section id="work">
+        <h3>Work</h3>
+        <div class="stack">
+            <article>
+              <header>
+                <div class="spaced-list">
+                  <h4>T. Rowe Price</h4>
+                  <span>
+                    <time datetime="2018-05-01">Apr 2018</time> –
+                    Present
+                  </span>
+                </div>
+                <div class="spaced-list">
+                    <strong>Associate Vice President, Senior Software Engineer</strong>
+                    <a href="https://troweprice.com/">troweprice.com</a>
+                </div>
+              </header>
+                <p>Investment Management/Financial Services</p>
+                <h5>Highlights</h5>
+                <ul>
+                    <li>Initial Committer First Enterprise-wide UI component library (React-based)</li>
+                    <li>Introduced Peer-review standard as part of SDLC for league of scrum teams.</li>
+                    <li>Added Investment Account Funding from external accounts via Plaid 3P Integration</li>
+                    <li>Principal Architect of V2 Retail Buying Experience</li>
+                    <li>Principal Architect of V2 Retail Shopping Experience</li>
+                </ul>
+            </article>
+            <article>
+              <header>
+                <div class="spaced-list">
+                  <h4>Upside Travel</h4>
+                  <span>
+                    <time datetime="2017">Dec 2016</time> –
+                    <time datetime="2018">Dec 2017</time>
+                  </span>
+                </div>
+                <div class="spaced-list">
+                    <strong>Software Engineer</strong>
+                    <a href="https://upside.com/">upside.com</a>
+                </div>
+              </header>
+                <p>At Upside, I successfully designed and built out our omni-channel communication strategy. This included architecting and building in-app messaging, email, and phone communication channels. I built and optimized our communication and task routing algorithm, so our 24/7 concierge team could be assigned new cases  under high-load  in real-time. In collaboration with a couple of other engineers, I won the Upside.com hackathon with an Amazon Alexa app connected to internal services, including flight status (e.g. &quot;Alexa is my flight on time?&quot;).</p>
+                <h5>Highlights</h5>
+                <ul>
+                    <li>Won annual Upside hackathon</li>
+                    <li>Successfully designed, built, and launched omni-channel communication platform for navigators.</li>
+                </ul>
+            </article>
+            <article>
+              <header>
+                <div class="spaced-list">
+                  <h4>Under Armour</h4>
+                  <span>
+                    <time datetime="2014">Dec 2013</time> –
+                    <time datetime="2017">Dec 2016</time>
+                  </span>
+                </div>
+                <div class="spaced-list">
+                    <strong>Software Engineer</strong>
+                    <a href="https://ua.com/">ua.com</a>
+                </div>
+              </header>
+                <p>In my role as a full-stack developer, I worked on a large-scale, highly available e-commerce platform. I  led a team at Under Armour on Application Performance Management (APM), setting up a custom-built system for real-time monitoring and alerts on key metrics of system performance across the cluster. This system was used during peak retail season when huge variance from our normal traffic pattern occurred. I also worked on various initiatives and systems, including the first responsive redesign and rebuild of the ecommerce website, search and checkout subsystems and many others.</p>
+                <h5>Highlights</h5>
+                <ul>
+                    <li>Cloud Orchestration</li>
+                    <li>Deployments</li>
+                    <li>Automation</li>
+                    <li>Production/On-Call Support</li>
+                    <li>Microservice Design/Implementation</li>
+                    <li>Node.js and Scala Architecture &amp; Development</li>
+                </ul>
+            </article>
+            <article>
+              <header>
+                <div class="spaced-list">
+                  <h4>ADG Creative</h4>
+                  <span>
+                    <time datetime="2012">Dec 2011</time> –
+                    <time datetime="2014">Dec 2013</time>
+                  </span>
+                </div>
+                <div class="spaced-list">
+                    <strong>Senior UI Engineer</strong>
+                    <a href="https://adgcreative.net/">adgcreative.net</a>
+                </div>
+              </header>
+                <p>At ADG, my projects included work in the commercial, federal, and not-for-profit sectors. I worked extensively with defense clients and governmental agencies. Portfolio available upon request.</p>
+                <h5>Highlights</h5>
+                <ul>
+                    <li>Led front-end development strategy at ADG.</li>
+                    <li>Helped architect core front-end libraries and frameworks.</li>
+                </ul>
+            </article>
+            <article>
+              <header>
+                <div class="spaced-list">
+                  <h4>Fathom Creative</h4>
+                  <span>
+                    <time datetime="2010">Dec 2009</time> –
+                    <time datetime="2012">Dec 2011</time>
+                  </span>
+                </div>
+                <div class="spaced-list">
+                    <strong>Senior UI Engineer</strong>
+                    <a href="https://fathomcreative.com/">fathomcreative.com</a>
+                </div>
+              </header>
+                <p>At Fathom Creative, I developed, executed, and completed multiple commercial, federal and non-profit websites, mobile applications and other interactive applications for local, regional and national entities including Carfax, GPO, GSA, Paxton Vanlines, American Chemical Society and the American Chemical Council.</p>
+            </article>
         </div>
-        <div>
-          <h4>Backend</h4>
-          <ul class="tag-list">
-            <li>REST/HATEOAS</li>
-            <li>HTTP</li>
-            <li>GraphQL</li>
-            <li>Node.js</li>
-            <li>PHP</li>
-            <li>Scala</li>
-            <li>Java</li>
-            <li>Clojure</li>
-            <li>Python</li>
-            <li>others...</li>
-          </ul>
+      </section>
+      <section id="skills">
+        <h3>Skills</h3>
+        <div class="grid-list">
+            <div>
+                <h4>Frontend</h4>
+                <ul class="tag-list">
+                    <li>User Interface Design</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>Responsive/Adaptive/Mobile-First</li>
+                    <li>Javascript</li>
+                    <li>React</li>
+                    <li>Storybook</li>
+                    <li>Pattern Library</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Backend</h4>
+                <ul class="tag-list">
+                    <li>REST/HATEOAS</li>
+                    <li>HTTP</li>
+                    <li>GraphQL</li>
+                    <li>Node.js</li>
+                    <li>PHP</li>
+                    <li>Scala</li>
+                    <li>Java</li>
+                    <li>Clojure</li>
+                    <li>Python</li>
+                    <li>others...</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Databases</h4>
+                <ul class="tag-list">
+                    <li>PostgreSQL</li>
+                    <li>MySQL</li>
+                    <li>MSSQL</li>
+                    <li>Redis</li>
+                    <li>MongoDB</li>
+                    <li>ElasticSearch</li>
+                    <li>others...</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Cloud</h4>
+                <ul class="tag-list">
+                    <li>AWS</li>
+                    <li>Serverless</li>
+                    <li>Service Oriented Architecture</li>
+                    <li>GRPC, REST</li>
+                    <li>Pub Sub</li>
+                    <li>Queuing</li>
+                    <li>Kubernetes</li>
+                </ul>
+            </div>
         </div>
-        <div>
-          <h4>Databases</h4>
-          <ul class="tag-list">
-            <li>PostgreSQL</li>
-            <li>MySQL</li>
-            <li>MSSQL</li>
-            <li>Redis</li>
-            <li>MongoDB</li>
-            <li>ElasticSearch</li>
-            <li>others...</li>
-          </ul>
+      </section>
+      <section id="references">
+        <h3>References</h3>
+        <div class="stack">
+              <blockquote>
+                <p>I've worked with Charlie at two agencies. I interviewed and recommended him for hire at the first, then assisted in recruiting him to the second. In both agencies, his thirst for keeping up with the latest tech trends and skills, near superhuman ability to learn new things on the fly, and unwavering team spirit is what made him invaluable. He's a developer on paper, but also has a keen design eye for animation timing, grid systems, color, feedback states, and all of the other details that polish a UI experience. More important than any of those skills though, Charlie is a futurist and a visionary. He's the person to be given a task and to come back with multiple ways of accomplishing the task better than expected, as a reflection of his pulse on the rapidly evolving human-computer world. I've helped hire Charlie twice and I'd do it many more times</p>
+                  <p>
+                    <cite>Anthony D. Paul - Global Product Strategy and Foresight – Applied Innovation at Wabtec Corporation</cite>
+                  </p>
+              </blockquote>
         </div>
-        <div>
-          <h4>Cloud</h4>
-          <ul class="tag-list">
-            <li>AWS</li>
-            <li>Serverless</li>
-            <li>Service Oriented Architecture</li>
-            <li>GRPC, REST</li>
-            <li>Pub Sub</li>
-            <li>Queuing</li>
-            <li>Kubernetes</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <section id="references">
-      <h3>References</h3>
-      <div class="stack">
-        <blockquote>
-          <p>
-            I've worked with Charlie at two agencies. I interviewed and
-            recommended him for hire at the first, then assisted in recruiting
-            him to the second. In both agencies, his thirst for keeping up with
-            the latest tech trends and skills, near superhuman ability to learn
-            new things on the fly, and unwavering team spirit is what made him
-            invaluable. He's a developer on paper, but also has a keen design
-            eye for animation timing, grid systems, color, feedback states, and
-            all of the other details that polish a UI experience. More important
-            than any of those skills though, Charlie is a futurist and a
-            visionary. He's the person to be given a task and to come back with
-            multiple ways of accomplishing the task better than expected, as a
-            reflection of his pulse on the rapidly evolving human-computer
-            world. I've helped hire Charlie twice and I'd do it many more times
-          </p>
-          <p>
-            <cite
-              >Anthony D. Paul - Global Product Strategy and Foresight – Applied
-              Innovation at Wabtec Corporation</cite
-            >
-          </p>
-        </blockquote>
-      </div>
-    </section>
+      </section>
   </body>
 </html>
